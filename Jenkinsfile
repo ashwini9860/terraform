@@ -25,4 +25,13 @@ node {
     sh '''
     terraform init
     ''' 
+    stage 'terraform plan'
+    sh '''
+    terraform plan -out=plan
+    '''
+    stage 'terraform apply'
+    sh '''
+    terraform apply plan
+    '''
+     
 }
