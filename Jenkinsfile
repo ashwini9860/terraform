@@ -11,5 +11,9 @@ node {
     stage 'print env'
     echo "key is ${AWS_ACCESS_KEY_ID}"
     echo "key is ${AWS_SECRET_ACCESS_KEY}"
-    
+   
+    stage 'terraform init'
+    sh '''
+    terraform init
+    ''' 
 }
