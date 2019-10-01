@@ -5,7 +5,7 @@ node {
     def secrets = [
         [path: 'secret/aws', engineVersion: 1, secretValues: [
             [envVar: 'aws_access', vaultKey: 'access_key'],
-            [envVar: 'aws_scretet', vaultKey: 'secret_key']]]
+            [envVar: 'aws_secret', vaultKey: 'secret_key']]]
     ]
 
     def configuration = [vaultUrl: 'http://13.232.202.231:8200',
