@@ -1,9 +1,23 @@
 node {
     def tfHome = tool name: 'terraform'
     env.PATH = "${tfHome}:${env.PATH}"
-    env.AWS_ACCESS_KEY_ID = "${AWS_ACCESS_KEY}"
-    env.AWS_SECRET_ACCESS_KEY = "${AWS_SECRET_KEY}"
-   
+    
+    def secrets = [
+        [path: 'secret/aws', engineVersion: 1, secretValues: [
+            [envVar: 'aws_access', vaultKey: 'access_key'],
+            [envVar: 'aws_scretet', vaultKey: 'secret_key']]]
+    ]
+
+    def configuration = [vaultUrl: 'http://13.232.202.231:8200',
+                         vaultCredentialId: 'vault',
+                         engineVersion: 1]
+                         
+    withVault([configuration: configuration, vaultSecrets: secrets]) {
+        env.AWS_ACCESS_KEY_ID = "$aws_access"
+        env.AWS_SECRET_ACCESS_KEY = "$aws_secret"
+       
+    }
+    
     stage 'Checkout Git'
     cleanWs()
     checkout([$class: 'GitSCM',
